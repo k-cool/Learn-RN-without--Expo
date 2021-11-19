@@ -7,18 +7,25 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
+  Keyboard,
 } from 'react-native';
 import useInput from '../hooks/useInput';
 
-const AddTodo = () => {
-  const {text, setText, emptyTextInput} = useInput('');
+const AddTodo = ({addNewTodo}) => {
+  const {text, setText} = useInput('');
+
+  const addToTodoList = () => {
+    addNewTodo(text);
+    setText('');
+    Keyboard.dismiss();
+  };
 
   const button = (
     <View style={styles.buttonStyle}>
       <Image source={require('../assets/icons/add_white/add_white.png')} />
     </View>
   );
-  console.log(text);
+
   return (
     <View style={styles.block}>
       <TextInput
@@ -26,18 +33,18 @@ const AddTodo = () => {
         placeholder="할 일을 입력하세요."
         value={text}
         onChangeText={setText}
-        onSubmitEditing={emptyTextInput}
+        onSubmitEditing={addToTodoList}
         returnKeyType="done"
       />
       {Platform.select({
         ios: (
-          <TouchableOpacity activeOpacity={0.5} onPress={emptyTextInput}>
+          <TouchableOpacity activeOpacity={0.5} onPress={addToTodoList}>
             {button}
           </TouchableOpacity>
         ),
         android: (
           <View style={styles.circleWrapper}>
-            <TouchableNativeFeedback onPress={emptyTextInput}>
+            <TouchableNativeFeedback onPress={addToTodoList}>
               {button}
             </TouchableNativeFeedback>
           </View>
