@@ -5,7 +5,7 @@ const KEY = 'todos';
 const todoStorage = {
   async get() {
     try {
-      const rawTodos = await AsyncStorage.getItem('todos');
+      const rawTodos = await AsyncStorage.getItem(KEY);
       if (!rawTodos) {
         throw new Error(`No saved ${KEY}`);
       }

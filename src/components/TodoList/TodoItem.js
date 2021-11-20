@@ -36,7 +36,7 @@ const TodoItem = ({id, text, done, toggleDone, deleteTodo}) => {
         <View style={checkStyle}>
           {done && (
             <Image
-              source={require('../assets/icons/check_white/check_white.png')}
+              source={require('../../assets/icons/check_white/check_white.png')}
             />
           )}
         </View>

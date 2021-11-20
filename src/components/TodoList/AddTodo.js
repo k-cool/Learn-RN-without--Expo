@@ -9,7 +9,7 @@ import {
   Platform,
   Keyboard,
 } from 'react-native';
-import useInput from '../hooks/useInput';
+import useInput from '../../hooks/useInput';
 
 const AddTodo = ({addNewTodo}) => {
   const {text, setText} = useInput('');
@@ -22,7 +22,7 @@ const AddTodo = ({addNewTodo}) => {
 
   const button = (
     <View style={styles.buttonStyle}>
-      <Image source={require('../assets/icons/add_white/add_white.png')} />
+      <Image source={require('../../assets/icons/add_white/add_white.png')} />
     </View>
   );
 
