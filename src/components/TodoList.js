@@ -1,13 +1,16 @@
 import React from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import {StyleSheet, View, FlatList, ScrollView} from 'react-native';
+
 import TodoItem from './TodoItem';
 
-const TodoList = ({todos}) => {
+const TodoList = ({todos, toggleDone, deleteTodo}) => {
   return (
     <FlatList
       style={styles.list}
       data={todos}
-      renderItem={({item}) => <TodoItem {...item} />}
+      renderItem={({item}) => (
+        <TodoItem {...item} toggleDone={toggleDone} deleteTodo={deleteTodo} />
+      )}
       keyExtractor={item => item.id.toString()}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
     />

@@ -2,7 +2,7 @@
  * @format
  */
 import React, {useState} from 'react';
-import {StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
+import {StyleSheet, KeyboardAvoidingView, Platform, Alert} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 import DateHead from './src/components/DateHead';
@@ -27,6 +27,18 @@ const App = () => {
     setTodos([...todos].concat(newTodo));
   };
 
+  const toggleDone = id => {
+    const nextTodos = todos.map(todo =>
+      todo.id === id ? {...todo, done: !todo.done} : todo,
+    );
+    setTodos(nextTodos);
+  };
+
+  const deleteTodo = id => {
+    const nextTodos = todos.filter(todo => todo.id !== id);
+    setTodos(nextTodos);
+  };
+
   const today = new Date();
 
   return (
@@ -36,7 +48,15 @@ const App = () => {
           behavior={Platform.select({ios: 'padding'})}
           style={styles.avoid}>
           <DateHead date={today} />
-          {todos.length ? <TodoList todos={todos} /> : <Empty />}
+          {todos.length ? (
+            <TodoList
+              todos={todos}
+              toggleDone={toggleDone}
+              deleteTodo={deleteTodo}
+            />
+          ) : (
+            <Empty />
+          )}
           <AddTodo addNewTodo={addNewTodo} />
         </KeyboardAvoidingView>
       </SafeAreaView>

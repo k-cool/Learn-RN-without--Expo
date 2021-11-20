@@ -1,20 +1,56 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const TodoItem = ({id, text, done}) => {
+const TodoItem = ({id, text, done, toggleDone, deleteTodo}) => {
   const checkStyle = [styles.circle, done && styles.filled];
   const textStyle = [styles.text, done && styles.lineThrough];
 
+  const showDeleteAlert = () => {
+    Alert.alert('삭제', '정말로 삭제하시겠어요?', [
+      {text: '취소', onPress: () => {}, style: 'default'},
+      {
+        text: '삭제',
+        onPress: () => {
+          deleteTodo(id);
+        },
+        style: 'destructive',
+      },
+      {
+        cancelable: true,
+        onDismiss: () => {
+          console.log('wow');
+        },
+      },
+    ]);
+  };
+
   return (
     <View style={styles.item}>
-      <View style={checkStyle}>
-        {done && (
-          <Image
-            source={require('../assets/icons/check_white/check_white.png')}
-          />
-        )}
-      </View>
+      <TouchableOpacity activeOpacity={0.5} onPress={() => toggleDone(id)}>
+        <View style={checkStyle}>
+          {done && (
+            <Image
+              source={require('../assets/icons/check_white/check_white.png')}
+            />
+          )}
+        </View>
+      </TouchableOpacity>
       <Text style={textStyle}>{text}</Text>
+      {done ? (
+        <TouchableOpacity activeOpacity={0.5} onPress={showDeleteAlert}>
+          <Icon name="delete" size={28} color="red" />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.iconPlaceholder} />
+      )}
     </View>
   );
 };
@@ -50,6 +86,11 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: '#212121',
+  },
+
+  iconPlaceholder: {
+    width: 28,
+    height: 28,
   },
 });
 
