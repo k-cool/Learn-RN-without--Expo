@@ -25,9 +25,7 @@ const TodoItem = ({id, text, done, toggleDone, deleteTodo}) => {
       },
       {
         cancelable: true,
-        onDismiss: () => {
-          console.log('wow');
-        },
+        onDismiss: () => {},
       },
     ]);
   };

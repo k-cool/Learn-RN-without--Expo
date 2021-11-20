@@ -1,8 +1,8 @@
 /**
  * @format
  */
-import React, {useState} from 'react';
-import {StyleSheet, KeyboardAvoidingView, Platform, Alert} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
 import DateHead from './src/components/DateHead';
@@ -10,12 +10,25 @@ import AddTodo from './src/components/AddTodo';
 import TodoList from './src/components/TodoList';
 import Empty from './src/components/Empty';
 
+import todoStorage from './src/storages/todoStorage';
+
 const App = () => {
-  const [todos, setTodos] = useState([
-    {id: 1, text: '리네기 3장 공부', done: true},
-    {id: 2, text: '리네기 4장 공부', done: false},
-    {id: 3, text: '리네기 4장 실습', done: false},
-  ]);
+  const [todos, setTodos] = useState([]);
+
+  // 불러오기
+  useEffect(() => {
+    todoStorage //
+      .get()
+      .then(setTodos)
+      .catch(console.error);
+  }, []);
+
+  // 저장
+  useEffect(() => {
+    todoStorage //
+      .set(todos)
+      .catch(console.error);
+  }, [todos]);
 
   const addNewTodo = text => {
     const nextId = todos.length > 0 ? todos[todos.length - 1].id + 1 : 1;
